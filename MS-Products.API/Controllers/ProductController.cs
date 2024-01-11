@@ -9,6 +9,11 @@ namespace MS_Products.API.Controllers
     public class ProductController(IProductService productService) : ControllerBase
     {
         private readonly IProductService _productService = productService;
+        [HttpGet]
+        public IActionResult Health()
+        {
+            return Ok(DateTime.Now);
+        }
         [HttpPost]
         public IActionResult CreateProduct([FromBody] Product product)
         {
