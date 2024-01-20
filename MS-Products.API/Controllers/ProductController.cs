@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MS_Products.Application.Interfaces;
 using MS_Products.Domain.Entities;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MS_Products.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ExcludeFromCodeCoverage]
     public class ProductController(IProductService productService) : ControllerBase
     {
         private readonly IProductService _productService = productService;

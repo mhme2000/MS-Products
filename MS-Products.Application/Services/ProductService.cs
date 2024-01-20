@@ -25,9 +25,9 @@ public class ProductService(IProductRepository repository) : IProductService
         return _repository.GetProductByCategoryId(categoryId);
     }
 
-    public Task<Product> GetProductById(Guid productId)
+    public async Task<Product> GetProductById(Guid productId)
     {
-        var info = _repository.GetProductById(productId);
+        var info = await _repository.GetProductById(productId);
         return info ?? throw new Exception("Produto não encontrado.");
     }
 

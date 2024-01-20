@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace MS_Products.Domain.Entities;
-public class Product (string name, decimal price, Guid storeId, string? description, string? image, Guid? categoryId)
+[ExcludeFromCodeCoverage]
+public class Product (string name, decimal price, Guid storeId, string? description = null, string? image = null, Guid? categoryId = null)
 {
 	[Key]
 	public Guid Id { get; set; } = Guid.NewGuid();
