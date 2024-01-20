@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS-Products.API", "MS-Produ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS-Products.Domain", "MS-Products.Domain\MS-Products.Domain.csproj", "{F8FA3DA1-F34E-4BAE-A2B6-E415F68B44D8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS-Products.Tests", "MS-Products.Application.Tests\MS-Products.Tests.csproj", "{5935EB71-36FA-4395-A239-01DEAEF7C9B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS-Products.Tests", "MS-Products.Tests\MS-Products.Tests.csproj", "{5935EB71-36FA-4395-A239-01DEAEF7C9B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MS-Products.Infrastructure", "MS-Products.Infrastructure\MS-Products.Infrastructure.csproj", "{B936517F-CF47-48C8-8976-74057B31EF32}"
 EndProject
