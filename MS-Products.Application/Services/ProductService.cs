@@ -1,40 +1,49 @@
-﻿using MS_Products.Domain.Entities;
+﻿using MS_Products.Application.Interfaces;
+using MS_Products.Domain.Entities;
 using MS_Products.Domain.Interfaces;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace MS_Products.Application.Services;
-public class ProductService
+public class ProductService : IProductService
 {
     private readonly IProductRepository _repository;
     private readonly IDatabase _cache;
+#if !DEBUG
     private readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("elasticache-rg2n57.serverless.use1.cache.amazonaws.com:6379");
-
+#endif
     public ProductService(IProductRepository repository)
     {
         _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+#if !DEBUG
         _cache = redis.GetDatabase();
+#else
+        _cache = null;
+#endif
     }
 
     public async Task CreateProduct(Product product)
     {
         await _repository.CreateProduct(product);
-        ClearCache();
+        if(_cache != null) ClearCache();
     }
 
     public async Task DeleteProductById(Guid productId)
     {
         await _repository.DeleteProductById(productId);
-        ClearCache();
+        if (_cache != null) ClearCache();
     }
 
     public async Task<IEnumerable<Product>> GetAllProducts()
     {
-        var cachedData = await _cache.StringGetAsync("AllProducts");
-        if (!cachedData.IsNullOrEmpty)
-            return JsonConvert.DeserializeObject<IEnumerable<Product>>(cachedData);
+        if (_cache != null)
+        {
+            var cachedData = await _cache.StringGetAsync("AllProducts");
+            if (!cachedData.IsNullOrEmpty)
+                return JsonConvert.DeserializeObject<IEnumerable<Product>>(cachedData);
+        }           
         var products = await _repository.GetAllProducts();
-        await _cache.StringSetAsync("AllProducts", JsonConvert.SerializeObject(products));
+        if (_cache != null) await _cache.StringSetAsync("AllProducts", JsonConvert.SerializeObject(products));
 
         return products;
     }
@@ -47,13 +56,16 @@ public class ProductService
 
     public async Task<Product> GetProductById(Guid productId)
     {
-        var cachedData = await _cache.StringGetAsync($"Product:{productId}");
-        if (!cachedData.IsNullOrEmpty)
-            return JsonConvert.DeserializeObject<Product>(cachedData);        
+        if (_cache != null) 
+        {
+            var cachedData = await _cache.StringGetAsync($"Product:{productId}");
+            if (!cachedData.IsNullOrEmpty)
+                return JsonConvert.DeserializeObject<Product>(cachedData);
+        }                  
         var product = await _repository.GetProductById(productId);
         if (product != null)
         {
-            await _cache.StringSetAsync($"Product:{productId}", JsonConvert.SerializeObject(product));
+            if (_cache != null) await _cache.StringSetAsync($"Product:{productId}", JsonConvert.SerializeObject(product));
             return product;
         }
         throw new Exception("Produto não encontrado.");
@@ -63,7 +75,7 @@ public class ProductService
     {
         await GetProductById(product.Id);
         await _repository.UpdateProductById(product);
-        ClearCache(product.Id);
+        if (_cache != null) ClearCache(product.Id);
     }
 
     private void ClearCache(Guid? productId = null)
