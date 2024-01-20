@@ -56,7 +56,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"mhme2000_MS-Products" /o:"mhme2000" /d:sonar.token="1cb53756864fb1b525c4dc25e150b160f8163703" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
+          dotnet test MS-Products.sln.sln --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="1cb53756864fb1b525c4dc25e150b160f8163703"
   deploy:
     name: Deploy
