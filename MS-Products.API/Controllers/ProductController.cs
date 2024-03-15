@@ -17,7 +17,7 @@ namespace MS_Products.API.Controllers
             return Ok(DateTime.Now);
         }
         [HttpPost]
-        public IActionResult CreateProduct([FromBody] Product product)
+        public IActionResult CreateProduct([FromBody] Product product)  
         {
             var retorno = _productService.CreateProduct(product);
             return Ok(retorno);
