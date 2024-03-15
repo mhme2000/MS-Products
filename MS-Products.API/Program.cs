@@ -18,11 +18,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-//using (var scope = app.Services.CreateScope())
-//{
-//    var dataContext = scope.ServiceProvider.GetRequiredService<ProductContext>();
-//    dataContext.Database.Migrate();
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<ProductContext>();
+    dataContext.Database.Migrate();
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
