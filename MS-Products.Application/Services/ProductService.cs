@@ -10,7 +10,7 @@ public class ProductService : IProductService
     private readonly IProductRepository _repository;
     private readonly IDatabase _cache;
 #if !DEBUG
-    private readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("elasticache-rg2n57.serverless.use1.cache.amazonaws.com:6379");
+    private readonly ConnectionMultiplexer redis = ConnectionMultiplexer.Connect("cache-7sv0kr.serverless.use1.cache.amazonaws.com:6379");
 #endif
     public ProductService(IProductRepository repository)
     {
