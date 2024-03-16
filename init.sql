@@ -1,2 +1,2 @@
-﻿--﻿CREATE DATABASE products;
---GRANT ALL PRIVILEGES ON DATABASE products TO postgres;
+﻿﻿CREATE DATABASE products;
+GRANT ALL PRIVILEGES ON DATABASE products TO postgres;
