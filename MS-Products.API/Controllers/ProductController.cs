@@ -17,41 +17,41 @@ namespace MS_Products.API.Controllers
             return Ok(DateTime.Now);
         }
         [HttpPost]
-        public IActionResult CreateProduct([FromBody] Product product)  
+        public async Task<IActionResult> CreateProductAsync([FromBody] Product product)  
         {
-            var retorno = _productService.CreateProduct(product);
-            return Ok(retorno);
+            await _productService.CreateProduct(product);
+            return Created();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteProductById(Guid id)
+        public async Task<IActionResult> DeleteProductByIdAsync(Guid id)
         {
-            var retorno = _productService.DeleteProductById(id);
-            return Ok(retorno);
+            await _productService.DeleteProductById(id);
+            return NoContent();
         }
         [HttpGet]
-        public IActionResult GetAllProducts()
+        public async Task<IActionResult> GetAllProductsAsync()
         {
-            var retorno = _productService.GetAllProducts();
-            return Ok(retorno);
+            var retorno = await _productService.GetAllProducts();
+            return Ok(retorno.ToList());
         }
         [HttpGet("filterByCategoryId/{categoryId}")]
-        public IActionResult GetProductByCategoryId(Guid categoryId)
+        public async Task<IActionResult> GetProductByCategoryIdAsync(Guid categoryId)
         {
-            var retorno = _productService.GetProductByCategoryId(categoryId);
+            var retorno = await _productService.GetProductByCategoryId(categoryId);
             return Ok(retorno);
         }
         [HttpGet("{id}")]
-        public IActionResult GetProductById(Guid id)
+        public async Task<IActionResult> GetProductByIdAsync(Guid id)
         {
-            var retorno = _productService.GetProductById(id);
+            var retorno = await _productService.GetProductById(id);
             return Ok(retorno);
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateProductById(Guid id, [FromBody] Product product)
+        public async Task<IActionResult> UpdateProductByIdAsync(Guid id, [FromBody] Product product)
         {
             product.Id = id;
-            var retorno = _productService.UpdateProductById(product);
-            return Ok(retorno);
+            await _productService.UpdateProductById(product);
+            return NoContent();
         }   
     }
 }
